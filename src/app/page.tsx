@@ -3,6 +3,21 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
+const heroSlides = [
+  {
+    src: "/hero_bg.png",
+    alt: "Shipping container and supply chain themed hero background",
+  },
+  {
+    src: "/hero-slides/1.jpg",
+    alt: "Abstract logistics themed hero background",
+  },
+  {
+    src: "/hero-slides/6.jpg",
+    alt: "Blue ocean logistics themed hero background",
+  },
+];
+
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -10,6 +25,11 @@ export default function Home() {
     minutes: 0,
     seconds: 0,
   });
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [previousHeroIndex, setPreviousHeroIndex] = useState<number | null>(
+    null,
+  );
+  const [heroDirection, setHeroDirection] = useState<"up" | "down">("up");
 
   // Form State
   const [formData, setFormData] = useState({
@@ -45,6 +65,31 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (previousHeroIndex === null) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setPreviousHeroIndex(null);
+    }, 650);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [previousHeroIndex, heroIndex]);
+
+  const goToHeroSlide = (direction: "prev" | "next") => {
+    setPreviousHeroIndex(heroIndex);
+    setHeroDirection(direction === "prev" ? "up" : "down");
+
+    setHeroIndex((currentIndex) => {
+      if (direction === "prev") {
+        return (currentIndex - 1 + heroSlides.length) % heroSlides.length;
+      }
+
+      return (currentIndex + 1) % heroSlides.length;
+    });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -99,6 +144,56 @@ export default function Home() {
   return (
     <main>
       <section className="hero">
+        <div className="hero-media" aria-hidden="true">
+          {previousHeroIndex !== null && (
+            <div
+              key={`hero-exit-${previousHeroIndex}`}
+              className={`hero-slide hero-slide--exit hero-slide--exit-${heroDirection}`}
+            >
+              <Image
+                src={heroSlides[previousHeroIndex].src}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+              />
+            </div>
+          )}
+
+          <div
+            key={`hero-enter-${heroIndex}-${heroDirection}`}
+            className={`hero-slide hero-slide--enter hero-slide--enter-${heroDirection}`}
+          >
+            <Image
+              src={heroSlides[heroIndex].src}
+              alt={heroSlides[heroIndex].alt}
+              fill
+              priority
+              sizes="100vw"
+            />
+          </div>
+
+          <div className="hero-overlay" />
+        </div>
+
+        <button
+          type="button"
+          className="hero-arrow hero-arrow--left"
+          aria-label="Previous hero image"
+          onClick={() => goToHeroSlide("prev")}
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <button
+          type="button"
+          className="hero-arrow hero-arrow--right"
+          aria-label="Next hero image"
+          onClick={() => goToHeroSlide("next")}
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+
         <div className="hero-content">
           <h4>Exclusive Invitation</h4>
           <h1>

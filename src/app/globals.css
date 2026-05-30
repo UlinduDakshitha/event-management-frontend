@@ -68,7 +68,7 @@ body {
 }
 
 .partner-img {
-  height:  40px;
+  height: 40px;
   width: 300px;
   display: block;
 }
@@ -83,21 +83,68 @@ header {
   position: relative;
   height: 80vh;
   min-height: 600px;
-  background: url("/hero_bg.png") center center/cover no-repeat;
   display: flex;
   align-items: center;
   padding: 0 5%;
+  overflow: hidden;
 }
 
 .hero::before {
-  content: "";
+  content: none;
+}
+
+.hero-media {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-slide img {
+  object-fit: cover;
+}
+
+.hero-slide--enter {
+  animation-duration: 650ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.hero-slide--enter-up {
+  animation-name: hero-enter-up;
+}
+
+.hero-slide--enter-down {
+  animation-name: hero-enter-down;
+}
+
+.hero-slide--exit {
+  animation-duration: 650ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.hero-slide--exit-up {
+  animation-name: hero-exit-up;
+}
+
+.hero-slide--exit-down {
+  animation-name: hero-exit-down;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 27, 53, 0.62) 0%,
+    rgba(7, 27, 53, 0.34) 55%,
+    rgba(7, 27, 53, 0.1) 100%
+  );
 }
 
 .hero-content {
@@ -130,6 +177,99 @@ header {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 5px;
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  width: 58px;
+  height: 78px;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1d1d1d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(0);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.hero-arrow:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.hero:hover .hero-arrow,
+.hero:focus-within .hero-arrow {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hero-arrow--left {
+  left: 0;
+  border-radius: 0 10px 10px 0;
+  transform: translateY(-50%) translateX(-12px);
+}
+
+.hero-arrow--right {
+  right: 0;
+  border-radius: 10px 0 0 10px;
+  transform: translateY(-50%) translateX(12px);
+}
+
+.hero:hover .hero-arrow--left,
+.hero:focus-within .hero-arrow--left,
+.hero:hover .hero-arrow--right,
+.hero:focus-within .hero-arrow--right {
+  transform: translateY(-50%) translateX(0);
+}
+
+@keyframes hero-enter-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-enter-down {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-exit-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes hero-exit-down {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
 }
 
 .btn-primary {
