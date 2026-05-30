@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
 :root {
-  --primary-color: #CE2A29;
+  --primary-color: #ce2a29;
   --secondary-color: #1a1a1a;
   --text-color: #333333;
   --bg-color: #ffffff;
@@ -14,35 +14,68 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: var(--text-color);
   background-color: var(--bg-color);
   line-height: 1.6;
 }
 
 /* Header */
-header {
+.site-header {
   background-color: white;
-  padding: 15px 30px;
+  padding: 18px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-header .logo {
-  font-size: 24px;
+.site-title {
+  font-size: 20px;
   font-weight: 700;
   color: var(--primary-color);
+  text-decoration: none;
+  letter-spacing: 0.2px;
 }
 
-header .partner {
-  font-size: 18px;
+.site-title .tm {
+  font-size: 12px;
+  margin-left: 6px;
+  vertical-align: super;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.partner-text {
+  font-size: 14px;
   font-weight: 600;
-  color: #555;
+  color: #6b6b6b;
+}
+
+.logo-box {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: transparent;
+}
+
+.logo-box .logo img {
+  height: 36px;
+  display: block;
+}
+
+.partner-img {
+  height:  40px;
+  width: 300px;
+  display: block;
+}
+
+/* fallback for older header selectors */
+header {
+  background-color: white;
 }
 
 /* Hero Section */
@@ -50,17 +83,20 @@ header .partner {
   position: relative;
   height: 80vh;
   min-height: 600px;
-  background: url('/hero_bg.png') center center/cover no-repeat;
+  background: url("/hero_bg.png") center center/cover no-repeat;
   display: flex;
   align-items: center;
   padding: 0 5%;
 }
 
 .hero::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -127,7 +163,7 @@ header .partner {
   margin: -40px 5% 50px;
   position: relative;
   z-index: 10;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .countdown-section h3 {
@@ -217,12 +253,16 @@ header .partner {
 .reason-image img {
   width: 100%;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Red Banner */
 .red-banner {
-  background: linear-gradient(0deg, rgba(206, 42, 41, 0.88), rgba(206, 42, 41, 0.88));
+  background: linear-gradient(
+    0deg,
+    rgba(206, 42, 41, 0.88),
+    rgba(206, 42, 41, 0.88)
+  );
   padding: 60px 5%;
   text-align: center;
   color: white;
@@ -259,7 +299,7 @@ header .partner {
   max-width: 200px;
   border-radius: 50%;
   margin-bottom: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .speaker-card h4 {
@@ -300,7 +340,7 @@ header .partner {
   padding: 20px;
   margin-bottom: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   border-left: 4px solid var(--primary-color);
 }
 
@@ -329,7 +369,7 @@ header .partner {
   background: white;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .registration-info {
@@ -411,7 +451,8 @@ header .partner {
   .registration-section {
     flex-direction: column;
   }
-  .reason-row, .reason-row:nth-child(even) {
+  .reason-row,
+  .reason-row:nth-child(even) {
     flex-direction: column;
   }
   .countdown-section {
