@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const heroSlides = [
@@ -30,6 +30,8 @@ export default function Home() {
     null,
   );
   const [heroDirection, setHeroDirection] = useState<"up" | "down">("up");
+  const [contentAnim, setContentAnim] = useState<"" | "out" | "in">("");
+  const animTimeoutRef = useRef<number | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -79,9 +81,15 @@ export default function Home() {
   }, [previousHeroIndex, heroIndex]);
 
   const goToHeroSlide = (direction: "prev" | "next") => {
+    // Hide content immediately
+    if (animTimeoutRef.current) {
+      window.clearTimeout(animTimeoutRef.current);
+    }
+    setContentAnim("out");
+
+    // trigger slide change immediately so enter/exit slide animations run
     setPreviousHeroIndex(heroIndex);
     setHeroDirection(direction === "prev" ? "up" : "down");
-
     setHeroIndex((currentIndex) => {
       if (direction === "prev") {
         return (currentIndex - 1 + heroSlides.length) % heroSlides.length;
@@ -89,6 +97,16 @@ export default function Home() {
 
       return (currentIndex + 1) % heroSlides.length;
     });
+
+    // After slide animation finishes, show content again
+    animTimeoutRef.current = window.setTimeout(() => {
+      setContentAnim("in");
+      // clear content state after enter animation completes
+      animTimeoutRef.current = window.setTimeout(() => {
+        setContentAnim("");
+        setPreviousHeroIndex(null);
+      }, 700);
+    }, 680);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,7 +212,9 @@ export default function Home() {
           <span aria-hidden="true">›</span>
         </button>
 
-        <div className="hero-content">
+        <div
+          className={`hero-content ${contentAnim ? `hero-content--${contentAnim}` : ""}`}
+        >
           <h4>Exclusive Invitation</h4>
           <h1>
             Troubled Waters: <span>Sailing with AI in Supply Chain</span>
@@ -203,7 +223,7 @@ export default function Home() {
           <p>Time - 09.30AM to 01.00PM</p>
           <p>Location - Marriott Resort, The Palm</p>
           <a href="#register-form" className="btn-primary">
-            Register Now &rarr;
+            Register Now <span className="btn-arrow">→</span>
           </a>
         </div>
       </section>
